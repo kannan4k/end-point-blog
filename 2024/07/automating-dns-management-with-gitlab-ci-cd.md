@@ -28,8 +28,8 @@ At End Point managing DNS records across multiple domains had been a manual task
 With multiple domains to manage and frequent updates necessary were needed to manage the servers, manual handling of DNS changes became a bottleneck.
 Initially, our process looked like this:
 - An engineer would make changes to the OpenTofu configuration files.
-- They would run tofu plan on a common server and create a Merge Request (MR) in GitLab.
-- The plan output would be manually pasted into the MR for review.
+- Create a Merge Request (MR) in GitLab.
+- They would run tofu plan manually and paste the plan output into the MR for review.
 - A co-worker would review the MR and approve the changes.
 - Once merged, the engineer would manually run tofu apply to implement the changes.
 
