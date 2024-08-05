@@ -3,13 +3,13 @@ title: "Automating DNS Management with GitLab CI/CD"
 author: Kannan Ponnusamy
 date: 2024-07-26
 github_issue_number: 2066
-description: Managing DNS records across multiple domains using Gitlab CI/CD features and it's terraform http backends
+description: Managing DNS records across multiple domains using GitLab CI/CD features and it's terraform http backends
 featured:
   image_url: #todo
 tags:
 - opentofu
 - terraform
-- gitlab
+- GitLab
 - devops
 ---
 
@@ -33,8 +33,8 @@ Initially, our process looked like this:
 - A co-worker would review the MR and approve the changes.
 - Once merged, the engineer would manually run tofu apply to implement the changes.
 
-
 While this process worked, to enhance our productivity and minimize errors, we decided to automate this process, integrating our DNS management directly into our CI/CD pipeline.
+
 
 ### The Solution: Automating with GitLab CI/CD
 
@@ -44,12 +44,11 @@ While this process worked, to enhance our productivity and minimize errors, we d
 - Applying Changes: Once approved and merged, another CI/CD job automatically runs tofu apply to implement the changes.
 
 
-
 ### Implementation Details:
 
 #### 1. .gitlab-ci.yaml
 
-If you are doing this on a self-hosted gitlab instance you would need to import the repo to your hosted gitlab workspace and use it here.
+If you are doing this on a self-hosted GitLab instance you would need to import the repo to your hosted GitLab workspace and use it here.
 
 We structured our GitLab CI/CD pipelines into three main stages:
 
@@ -139,7 +138,7 @@ Here is the script:
 
 set -e
 
-echo "Gitlab MR Comment Script Starts"
+echo "GitLab MR Comment Script Starts"
 
 if [ $# -eq 0 ]; then
     echo "Error: No output file path provided"
@@ -232,6 +231,15 @@ echo "Script completed successfully"
 ```
 
 
+Here is the tofu plan output comment:
+
+![The screenshot shows a plan log entry in merge request. The log entry reports actions by OpenTofu, indicating it used selected providers to generate an execution plan.](/blog/2024/07/automating-dns-management-with-gitlab-ci-cd/plan.png)
+
+Here is the tofu apply output comment:
+
+![The screenshot shows a tofu apply log entry in merge request. The log entry reports apply action by OpenTofu, indicating it used selected providers to apply the above generated plan.](/blog/2024/07/automating-dns-management-with-gitlab-ci-cd/apply.png)
+
+
 #### 3. Migrating to GitLab’s Remote HTTP Backend
 
 Transitioning your local Tofu state to a remote backend hosted by GitLab can streamline state management and enhance security. Follow these straightforward steps to achieve this:
@@ -240,7 +248,7 @@ First, set up the necessary environment variables with your specific details:
 
 ```bash
 export TF_STATE_NAME="example_net"
-export TF_HTTP_ADDRESS="https://<link_to_gitlab_instance>>/api/v4/projects/460/terraform/state/$TF_STATE_NAME"
+export TF_HTTP_ADDRESS="https://<link_to_GitLab_instance>>/api/v4/projects/460/terraform/state/$TF_STATE_NAME"
 export TF_HTTP_USERNAME="<create_a_user>"
 export TF_HTTP_PASSWORD="<create_a_password>"
 ```
