@@ -56,6 +56,8 @@ We structured our GitLab CI/CD pipelines into three main stages:
 2. Planning: Where we create a plan to show the changes.
 3. Deployment: Where the changes get applied once everything is approved.
 
+It's important to note that our CI/CD pipeline runs on a dedicated worker. This means only this worker has access to the secret keys needed for DNS management. By isolating these credentials to a single, controlled environment, we significantly reduce the risk of unauthorized access or accidental exposure of sensitive data.
+
 ```yaml
 include:
   - component: gitlab.com/components/opentofu/job-templates@main
